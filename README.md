@@ -4,6 +4,7 @@
 [![Svelte 5](https://img.shields.io/badge/Svelte-5.x_Runes-ff3e00?logo=svelte&logoColor=white)](https://svelte.dev)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-4.x-06b6d4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 [![Cloudflare Workers](https://img.shields.io/badge/Edge-Cloudflare_/_Vercel-f38020?logo=cloudflare&logoColor=white)](https://workers.cloudflare.com)
+[![CI](https://github.com/stevedat/svelte-edge-cms/actions/workflows/ci.yml/badge.svg)](https://github.com/stevedat/svelte-edge-cms/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-emerald.svg)](LICENSE)
 
 An open-source, lightweight alternative to Docusaurus and traditional Headless CMS. Svelte Edge CMS gives you the instant speed of compiled Svelte 5, the flexibility of Git-backed Markdown, and the convenience of a **built-in visual WYSIWYG Admin editor** running 100% serverless at the Edge.
