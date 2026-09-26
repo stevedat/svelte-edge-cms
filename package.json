@@ -49,6 +49,7 @@
 		"jose": "^6.2.8",
 		"lucide-svelte": "^0.468.0",
 		"marked": "^17.0.1",
+		"tailwind-merge": "^3.7.0",
 		"tiptap-markdown": "^0.9.0"
 	},
 	"description": "Ultra-fast, minimalist, Edge-native documentation & CMS platform built with SvelteKit 2, Svelte 5 runes, and Tailwind CSS v4.",

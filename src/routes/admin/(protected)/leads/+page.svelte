@@ -88,8 +88,7 @@
 	}
 
 	function exportToCSV() {
-		if (data.leads.length === 0) {
-			alert('No leads data to export.');
+		if (!data.leads || data.leads.length === 0) {
 			return;
 		}
 
@@ -143,7 +142,8 @@
 			<button
 				type="button"
 				onclick={exportToCSV}
-				class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface hover:bg-soft-bg border border-border-subtle hover:border-border-strong text-xs font-semibold text-text-main transition-all active:scale-98 shadow-2xs cursor-pointer"
+				disabled={!data.leads || data.leads.length === 0}
+				class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface hover:bg-soft-bg border border-border-subtle hover:border-border-strong text-xs font-semibold text-text-main transition-all active:scale-98 shadow-2xs cursor-pointer disabled:opacity-40 disabled:pointer-events-none"
 				title={t('admin.leads.exportCsv')}
 			>
 				<Download strokeWidth={1.75} size={14} class="text-primary" />

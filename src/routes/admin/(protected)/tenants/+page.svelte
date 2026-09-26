@@ -3,9 +3,10 @@
 	import { 
 		Globe, Plus, ExternalLink, Layers, FileText, Briefcase, Video, Users, 
 		LayoutTemplate, Palette, Sliders, KeyRound, Copy, Check, 
-		Eye, EyeOff, ShieldCheck, Lock, RotateCcw, X, Info
+		Eye, EyeOff, ShieldCheck, Lock, RotateCcw, Info
 	} from 'lucide-svelte';
 	import { t } from '$lib/i18n/index.js';
+	import Dialog from '$lib/components/ui/Dialog.svelte';
 
 	let { data, form } = $props();
 	let isSubmitting = $state(false);
@@ -17,12 +18,6 @@
 	let copied = $state(false);
 	let resetModalDomain = $state<string | null>(null);
 	let isResetting = $state(false);
-
-	function handleKeydown(e: KeyboardEvent) {
-		if (e.key === 'Escape' && resetModalDomain && !isResetting) {
-			resetModalDomain = null;
-		}
-	}
 
 	const layouts = [
 		{ id: 'editorial', label: 'Classic Editorial', desc: t('admin.tenants.layout.editorial.desc', { defaultValue: 'Article & Project Timeline' }) },
@@ -463,103 +458,70 @@
 	</div>
 </div>
 
-<!-- Modal Đặt lại Mật khẩu cho Tenant (Bottom sheet trên mobile, modal trên desktop) -->
-<svelte:window onkeydown={handleKeydown} />
-
-{#if resetModalDomain}
-	<div 
-		role="dialog"
-		aria-modal="true"
-		aria-labelledby="reset-modal-title"
-		class="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-0 sm:p-4"
-	>
-		<!-- Light Dismiss Backdrop -->
-		<!-- svelte-ignore a11y_click_events_have_key_events, a11y_no_static_element_interactions -->
-		<div 
-			class="fixed inset-0 bg-overlay backdrop-blur-xs transition-opacity animate-in fade-in duration-150 cursor-pointer"
-			onclick={() => { if (!isResetting) resetModalDomain = null; }}
-			aria-hidden="true"
-		></div>
-
-		<!-- Dialog Main Panel -->
-		<div class="relative w-full sm:max-w-md bg-surface border-t sm:border border-border-subtle rounded-t-3xl sm:rounded-3xl p-6 sm:p-7 shadow-2xl space-y-4 animate-in slide-in-from-bottom-5 sm:zoom-in-95 duration-150 z-10 pb-[env(safe-area-inset-bottom,1.5rem)]">
-			<!-- Mobile Drag Handle -->
-			<div class="sm:hidden pt-1 pb-2 flex justify-center -mt-2">
-				<div class="w-12 h-1.5 rounded-full bg-border-subtle/80"></div>
-			</div>
-
-			<div class="flex items-start justify-between gap-3">
-				<div class="flex items-center gap-3">
-					<div class="size-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0">
-						<KeyRound strokeWidth={1.75} size={20} />
-					</div>
-					<div>
-						<h3 id="reset-modal-title" class="font-bold text-text-main text-base sm:text-lg">
-							{t('admin.dialog.resetPasswordTitle')}
-						</h3>
-						<p class="text-xs text-text-muted font-mono">{resetModalDomain}</p>
-					</div>
-				</div>
-				<button 
-					type="button" 
-					onclick={() => { if (!isResetting) resetModalDomain = null; }}
-					class="min-w-[44px] min-h-[44px] -mr-2 -mt-2 rounded-full flex items-center justify-center text-text-muted hover:text-text-main hover:bg-soft-bg active:scale-95 transition-all cursor-pointer"
-					aria-label={t('common.close')}
-				>
-					<X size={18} strokeWidth={2} />
-				</button>
-			</div>
-
-			<p class="text-xs text-text-muted leading-relaxed">
-				{t('admin.dialog.resetPasswordDesc')}
-			</p>
-
-			<form
-				method="POST"
-				action="?/resetPassword"
-				use:enhance={() => {
-					isResetting = true;
-					return async ({ update }) => {
-						await update();
-						isResetting = false;
-						resetModalDomain = null;
-					};
-				}}
-				class="space-y-4"
-			>
-				<input type="hidden" name="domain" value={resetModalDomain} />
-				
-				<div class="space-y-1.5">
-					<label for="modalNewPassword" class="block text-xs font-bold text-text-main">
-						{t('admin.dialog.newPasswordLabel')}
-					</label>
-					<input
-						id="modalNewPassword"
-						type="text"
-						name="newPassword"
-						placeholder={t('admin.dialog.newPasswordPlaceholder')}
-						class="w-full rounded-xl bg-soft-bg border border-border-subtle px-4 py-2.5 text-text-main placeholder:text-text-muted focus:outline-hidden focus:border-primary focus:ring-2 focus:ring-primary/20 text-base sm:text-sm"
-					/>
-				</div>
-
-				<div class="flex items-center justify-end gap-3 pt-2">
-					<button
-						type="button"
-						onclick={() => resetModalDomain = null}
-						disabled={isResetting}
-						class="flex-1 sm:flex-none min-h-[44px] px-4 py-2.5 rounded-xl text-xs font-bold text-text-muted hover:bg-soft-bg border border-border-subtle transition-all active:scale-98 cursor-pointer disabled:opacity-50"
-					>
-						{t('admin.common.cancel')}
-					</button>
-					<button
-						type="submit"
-						disabled={isResetting}
-						class="flex-1 sm:flex-none min-h-[44px] px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:opacity-90 transition-all active:scale-98 disabled:opacity-50 cursor-pointer shadow-xs"
-					>
-						{isResetting ? t('admin.dialog.resettingBtn') : t('admin.dialog.confirmResetBtn')}
-					</button>
-				</div>
-			</form>
+<!-- Modal Đặt lại Mật khẩu cho Tenant -->
+<Dialog
+	open={!!resetModalDomain}
+	title={t('admin.dialog.resetPasswordTitle')}
+	description={resetModalDomain || ''}
+	size="md"
+	preventClose={isResetting}
+	showCloseButton={!isResetting}
+	onclose={() => { if (!isResetting) resetModalDomain = null; }}
+>
+	{#snippet icon()}
+		<div class="size-11 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold shrink-0">
+			<KeyRound strokeWidth={1.75} size={20} />
 		</div>
-	</div>
-{/if}
+	{/snippet}
+
+	<p class="text-xs text-text-muted leading-relaxed">
+		{t('admin.dialog.resetPasswordDesc')}
+	</p>
+
+	<form
+		method="POST"
+		action="?/resetPassword"
+		use:enhance={() => {
+			isResetting = true;
+			return async ({ update }) => {
+				await update();
+				isResetting = false;
+				resetModalDomain = null;
+			};
+		}}
+		class="space-y-4"
+	>
+		<input type="hidden" name="domain" value={resetModalDomain} />
+		
+		<div class="space-y-1.5">
+			<label for="modalNewPassword" class="block text-xs font-bold text-text-main">
+				{t('admin.dialog.newPasswordLabel')}
+			</label>
+			<input
+				id="modalNewPassword"
+				type="text"
+				name="newPassword"
+				placeholder={t('admin.dialog.newPasswordPlaceholder')}
+				class="w-full rounded-xl bg-soft-bg border border-border-subtle px-4 py-2.5 text-text-main placeholder:text-text-muted focus:outline-hidden focus:border-primary focus:ring-2 focus:ring-primary/20 text-base sm:text-sm"
+			/>
+		</div>
+
+		<div class="flex items-center justify-end gap-3 pt-2">
+			<button
+				type="button"
+				onclick={() => resetModalDomain = null}
+				disabled={isResetting}
+				class="flex-1 sm:flex-none min-h-[44px] px-4 py-2.5 rounded-xl text-xs font-bold text-text-muted hover:bg-soft-bg border border-border-subtle transition-all active:scale-98 cursor-pointer disabled:opacity-50"
+			>
+				{t('admin.common.cancel')}
+			</button>
+			<button
+				type="submit"
+				disabled={isResetting}
+				class="flex-1 sm:flex-none min-h-[44px] px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold hover:opacity-90 transition-all active:scale-98 disabled:opacity-50 cursor-pointer shadow-xs"
+			>
+				{isResetting ? t('admin.dialog.resettingBtn') : t('admin.dialog.confirmResetBtn')}
+			</button>
+		</div>
+	</form>
+</Dialog>

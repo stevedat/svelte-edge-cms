@@ -166,7 +166,13 @@ export const en = {
 		"fieldOptionSaaS": "⚡ SaaS & MVP",
 		"fieldOptionOther": "✏️ Other...",
 		"submitErrorGeneral": "An error occurred while submitting. Please try again later.",
-		"successDesc": "We have received your submission and will get back to you soon."
+		"successDesc": "We have received your submission and will get back to you soon.",
+		"contactTitle": "Contact Us",
+		"contactSubtitle": "Leave your information below, we will contact you soon.",
+		"sendRequestBtn": "Send Request",
+		"contactSuccessDesc": "Your request has been sent successfully. We will get back to you shortly via the provided contact info.",
+		"tenantFieldLabel": "Organization / Field",
+		"tenantNoteLabel": "Specific Request / Note"
 	},
 	"projects": {
 		"metaTitle": "Featured Projects · Edge CMS",

@@ -166,7 +166,13 @@ export const vi = {
 		"fieldOptionSaaS": "⚡ SaaS & MVP",
 		"fieldOptionOther": "✏️ Khác...",
 		"submitErrorGeneral": "Có lỗi xảy ra khi gửi thông tin. Vui lòng thử lại sau.",
-		"successDesc": "Chúng tôi đã nhận được thông tin và sẽ phản hồi sớm nhất."
+		"successDesc": "Chúng tôi đã nhận được thông tin và sẽ phản hồi sớm nhất.",
+		"contactTitle": "Liên hệ với chúng tôi",
+		"contactSubtitle": "Để lại thông tin bên dưới, chúng tôi sẽ liên hệ lại sớm nhất.",
+		"sendRequestBtn": "Gửi yêu cầu",
+		"contactSuccessDesc": "Yêu cầu của bạn đã được gửi thành công. Chúng tôi sẽ sớm phản hồi qua thông tin liên hệ cung cấp.",
+		"tenantFieldLabel": "Đơn vị / Chuyên môn",
+		"tenantNoteLabel": "Ghi chú / Nhu cầu cụ thể"
 	},
 	"projects": {
 		"metaTitle": "Dự án Tiêu biểu · Edge CMS",
